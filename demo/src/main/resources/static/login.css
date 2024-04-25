@@ -1,0 +1,61 @@
+body {
+    background-color: #f0f0f0; /* Setting a background color for better visibility */
+    background-image: url('background-image.jpg');
+    background-size: cover;
+    
+}
+
+
+/* Style for the login form */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Adding a shadow effect */
+}
+
+/* Style for form fields */
+input[type="text"],
+input[type="password"],
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Transparent border */
+    border-radius: 5px;
+    background-color: #f0f0f0; /* Light gray background color */
+}
+
+/* Style for the login button */
+button[type="submit"] {
+    background-color: #4CAF50; /* Green background color for the submit button */
+    color: white;
+    border: none;
+}
+
+/* Style for the signup button */
+button a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 400px) {
+    form {
+        max-width: 260px; /* Reduce form width for smaller screens */
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 16px; /* Reduce font size for inputs */
+    }
+
+    button[type="submit"],
+    button a {
+        font-size: 17px; /* Adjust font size for buttons */
+        height: 40px; /* Set button height */
+    }
+}

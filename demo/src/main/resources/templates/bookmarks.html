@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th = "http://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Basic styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+h1, h2 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.5;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #000;
+}
+
+ul {
+  list-style: none; /* Remove default bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+/* Specific styles for the bookmark page */
+.bookmark-container { /* Add a container for better organization */
+  display: flex; /* Arrange bookmarks horizontally */
+  justify-content: space-between; /* Space bookmarks evenly */
+  width: 100%; /* Adjust width as needed */
+  margin-left : 300px;
+}
+
+.bookmark {
+  border: 1px solid #ddd; /* Add a subtle border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px;
+  background-color: #f5f5f5; /* Light background for better readability */
+  display: flex; /* Allow alignment of title and URL */
+  align-items: center; /* Align title and URL vertically */
+}
+
+.bookmark h2 {
+  margin: 0; /* Remove default margin for headings within bookmarks */
+  flex: 1; /* Make title take up most space */
+}
+
+.bookmark a {
+  color: #000; /* Darker color for URLs */
+  text-decoration: underline; /* Underline URLs for clarity */
+}
+
+.logout-button {
+  background-color: #ddd; /* Neutral background for logout button */
+  border: none; /* Remove default border */
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer; /* Indicate clickable button */
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  margin-right: 10px;
+}
+
+button, button a {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.sidebar {
+  height: 100%;
+  width: 200px; /* Adjust width as needed */
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  overflow-x: hidden;
+  padding-top: 20px;
+  color: #fff;
+  text-align: center;
+  align-items: center;
+}
+
+/* Style for sidebar links */
+.sidebar a {
+  padding: 10px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #fff;
+  display: block;
+  text-align: center;
+}
+
+/* Style for active sidebar link */
+.sidebar a.active {
+  background-color: white;
+}
+
+/* Style for sidebar button */
+.sidebar button {
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: block;
+  width: 150px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Style for logout button */
+.logout-btn {
+  background-color: #dc3545;
+}
+
+/* Style for main content */
+.content {
+  margin-left: 200px; /* Adjust based on sidebar width */
+  padding: 20px;
+}
+
+    </style>
+</head>
+<body>
+  
+  <!-- <ul th:each="bookmark : ${bookmarklist}" class="bookmark-container">
+    <li class="bookmark">
+      <a th:href="${bookmark[1]}" th:text="${bookmark[1]}">  </a>
+    </li>
+  </ul> -->
+
+  <button class="logout-button"><a href="login">Logout</a></button>
+</body>
+</html>

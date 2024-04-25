@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button a {
+            color: #fff; /* Change button text color to white */
+            text-decoration: none;
+        }
+
+        button.goBack {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        button, button a {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 200px; /* Adjust width as needed */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: white;
+            overflow-x: hidden;
+            padding-top: 20px;
+            color: #fff;
+            text-align: center;
+            align-items: center;
+        }
+
+        /* Style for sidebar links */
+        .sidebar a {
+            padding: 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            text-align: center;
+        }
+
+        /* Style for active sidebar link */
+        .sidebar a.active {
+            background-color: white;
+        }
+
+        /* Style for sidebar button */
+        .sidebar button {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: block;
+            width: 150px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        /* Style for logout button */
+        .logout-btn {
+            background-color: #dc3545;
+        }
+
+        /* Style for main content */
+        .content {
+            margin-left: 200px; /* Adjust based on sidebar width */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+        
+    <p th:text="${targetname}"></p>
+    <ul>
+        <li th:text="${postdetails[1]}"></li>
+        <li th:text="${postdetails[2]}"></li>
+        <li th:text="${postdetails[3]}"></li>
+    </ul>
+
+
+    <form th:action="@{/likepost}" method="post">
+        <input type="hidden" name="currname" th:value="${currname}" />
+        <input type="hidden" name="targetname" th:value="${targetname}" />
+        <input type="hidden" name="post" th:value="${postdetails[1]}" />
+        <button type="submit">Like</button>
+    </form>
+
+    <form th:action="@{/dislikepost}" method="post">
+        <input type="hidden" name="currname" th:value="${currname}" />
+        <input type="hidden" name="targetname" th:value="${targetname}" />
+        <input type="hidden" name="post" th:value="${postdetails[1]}" />
+        <button type="submit">Dislike</button>
+    </form>
+
+    <form th:action="@{/createcomment}" method="post">
+        <input type="hidden" name="currname" th:value="${currname}" />
+        <input type="hidden" name="targetname" th:value="${targetname}" />
+        <input type="hidden" name="post" th:value="${postdetails[1]}" />
+        <button type="submit">Add Comment</button> 
+    </form>
+
+    <button class="goBack" onclick="goBack()">Go Back</button>
+
+    <ul th:each="comment :${comments}">
+        <li th:text="${comment[0]}"></li>
+        <li th:text="${comment[1]}"></li>
+        <li th:text="${comment[2]}"></li>
+        <li th:text="${comment[3]}"></li>
+
+        <form th:action="@{/likecomm}" method="post">
+            <input type="hidden" name="currname" th:value="${currname}" />
+            <input type="hidden" name="targetname" th:value="${targetname}" />
+            <input type="hidden" name="post" th:value="${postdetails[1]}" />
+            <input type="hidden" name="comment" th:value="${comment[1]}" />
+            <button type="submit">Like</button>
+        </form>
+
+        <form th:action="@{/dislikecomm}" method="post">
+            <input type="hidden" name="currname" th:value="${currname}" />
+            <input type="hidden" name="targetname" th:value="${targetname}" />
+            <input type="hidden" name="post" th:value="${postdetails[1]}" />
+            <input type="hidden" name="comment" th:value="${comment[1]}" />
+            <button type="submit">Dislike</button>
+        </form>
+    </ul>
+
+    <button><a href="login">Logout</a></button> 
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</body>
+</html>

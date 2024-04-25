@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        button a {
+            color: #fff; /* Change button text color to white */
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        button, button a {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 200px; /* Adjust width as needed */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: white;
+            overflow-x: hidden;
+            padding-top: 20px;
+            color: #fff;
+            text-align: center;
+            align-items: center;
+        }
+
+        /* Style for sidebar links */
+        .sidebar a {
+            padding: 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            text-align: center;
+        }
+
+        /* Style for active sidebar link */
+        .sidebar a.active {
+            background-color: white;
+        }
+
+        /* Style for sidebar button */
+        .sidebar button {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: block;
+            width: 150px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        /* Style for logout button */
+        .logout-btn {
+            background-color: #dc3545;
+        }
+
+        /* Style for main content */
+        .content {
+            margin-left: 200px; /* Adjust based on sidebar width */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+        
+    <form th:action="@{/changepost}" method="post">
+        <input type="hidden" id="username" name="username" th:value="${username}">
+        <input type="hidden" name="oldcontent" th:value="${content}">
+        <label for="content">Content:</label><br>
+        <textarea id="content" name="newcontent" th:value = "${content}"></textarea><br>
+        <button type="submit">Edit Post</button>
+    </form>
+    <button><a href = "login">Logout</a></button>
+</body>
+</html>

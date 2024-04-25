@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        button, button a {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 200px; /* Adjust width as needed */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: white;
+            overflow-x: hidden;
+            padding-top: 20px;
+            color: #fff;
+            text-align: center;
+            align-items: center;
+        }
+
+        /* Style for sidebar links */
+        .sidebar a {
+            padding: 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            text-align: center;
+        }
+
+        /* Style for active sidebar link */
+        .sidebar a.active {
+            background-color: white;
+        }
+
+        /* Style for sidebar button */
+        .sidebar button {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: block;
+            width: 150px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        /* Style for logout button */
+        .logout-btn {
+            background-color: #dc3545;
+        }
+
+        /* Style for main content */
+        .content {
+            margin-left: 200px; /* Adjust based on sidebar width */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class = "sidebar">
+    
+        <form th:action="@{/users}" method="post">
+            <input type="text" name="searchbarcontent" placeholder="Search..">
+            <input type="hidden" name="username" th:value="${username}" />
+        </form>
+
+        <form th:action="@{/createpost}" method="post">
+            <input type="hidden" name="username" th:value="${username}">
+            <button type="submit">Create Post</button>
+        </form>
+
+        <form th:action="@{/notification}" method="post">
+            <input type="hidden" name="username" th:value="${username}">
+            <button type="submit">Send a Message</button>
+        </form>
+
+        <form th:action="@{/viewmsgs}" method="post">
+            <input type="hidden" name="username" th:value="${username}">
+            <button type="submit">View Messages</button>
+        </form>
+
+        <form th:action="@{/seemyposts}" method="post">
+            <input type="hidden" name="username" th:value="${username}">
+            <button type="submit">View Posts</button>
+        </form>
+
+        <form th:action="@{/getbookmark}" method="post">
+            <input type="hidden" name="username" th:value="${username}">
+            <button type="submit">View Bookmarks</button>
+        </form>
+
+        <button><a href="login" style="color: #fff;">Logout</a></button>
+
+    </div>
+</body>
+</html>
