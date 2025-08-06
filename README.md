@@ -14,4 +14,4 @@ git clone https://github.com/Sumedh220122/Content_posting_application.git
 cd Content_posting_application
 mvn clean install
 mvn spring-boot:run
-``
+```
