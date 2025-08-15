@@ -1,6 +1,6 @@
-# Study Roadmap planner agent
+# Content Posting application
 
-This repository provides a detailed implementation for a Content-Posting Application(on the likes of Quora and Reddit), created by making use of the Spring-MVC framework. Details are persisted in a MYSQL database. 
+This repository provides a detailed implementation for a Full Stack Content-Posting Application(on the likes of Quora and Reddit), created by making use of the Spring-MVC framework. Details are persisted in a MYSQL database. 
 
 ## What's Included?
 
