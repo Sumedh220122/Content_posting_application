@@ -25,7 +25,7 @@ This repository provides a detailed implementation for a Full Stack Content-Post
 
 ### Step 1: Clone the repository and set up some prerequisites 
 
-First, make sure you have Java and Maven installed. Then:
+First, make sure you have Java, MySQL and Maven installed. Then:
 
 ```bash
 git clone https://github.com/Sumedh220122/Content_posting_application.git
@@ -45,7 +45,7 @@ db.password=your_database_password
 
 ### Step 3: Set up your database
 
-Run the **[`create_schema.sql`](create_schema.sql)** file in the project root to set up your database
+Run the **[`create_schema.sql`](create_schema.sql)** file in MYSQL Workbench to set up your database
 
 ### Step 4: Run the application
 
