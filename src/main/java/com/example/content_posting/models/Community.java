@@ -1,7 +1,6 @@
 package com.example.content_posting.models;
 
 import java.util.UUID;
-import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 

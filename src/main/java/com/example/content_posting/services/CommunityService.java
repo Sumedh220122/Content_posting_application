@@ -1,10 +1,8 @@
 package com.example.content_posting.services;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.example.content_posting.models.Community;
 import com.example.content_posting.repository.CommunityRepository;

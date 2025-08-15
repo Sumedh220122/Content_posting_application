@@ -1,18 +1,14 @@
 package com.example.content_posting.controllers;
 
-import com.example.content_posting.dto.LoginRequest;
 import com.example.content_posting.services.PostService;
 import com.example.content_posting.services.UserService;
 import com.example.content_posting.utils.SessionUtils;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 
-import com.example.content_posting.dto.SignupRequest;
 import com.example.content_posting.models.User;
 import com.example.content_posting.models.Post;
 
