@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Created - KnowledgeHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            background: white;
+            height: 60px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 20px;
+            z-index: 100;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .profile-icon:hover {
+            background: #0056b3;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            z-index: 101;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px 20px;
+            color: #6c757d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #f8f9fa;
+            color: #007bff;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            margin-top: 60px;
+            padding: 20px;
+            min-height: calc(100vh - 60px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .community-details-container {
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: white;
+            font-size: 40px;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        .community-info {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .community-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        .community-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .primary-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #0056b3;
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: #6c757d;
+            border: 2px solid #e0e0e0;
+        }
+
+        .secondary-btn:hover {
+            background: #f8f9fa;
+            border-color: #ccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .navbar {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .community-details-container {
+                padding: 30px 20px;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .community-name {
+                font-size: 1.5rem;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">KnowledgeHub</div>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/home" class="nav-item">Home</a>
+        <a href="/explore" class="nav-item">Explore</a>
+        <a href="/popular" class="nav-item">Popular</a>
+        <a href="/about" class="nav-item">About</a>
+    </nav>
+</div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <a href="/profile" class="profile-icon">
+        U
+    </a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="community-details-container">
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h1 class="page-title">Community Created Successfully!</h1>
+        <p class="success-message">Your new community is now live and ready for members to join.</p>
+
+        <div class="community-info">
+            <div class="info-label">Community Name</div>
+            <div class="community-name" th:text="${community.name}">Technology Enthusiasts</div>
+
+            <div class="info-label">Tags</div>
+            <div class="community-tags" th:text = "${community.tags}"></div>
+        </div>
+
+        <div class="actions">
+            <a href="/home" class="action-btn primary-btn">Go to Home</a>
+            <a href="/community/create" class="action-btn secondary-btn">Create Another</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

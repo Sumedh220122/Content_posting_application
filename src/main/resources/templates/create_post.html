@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - KnowledgeHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #dae0e6;
+            color: #1a1a1b;
+            line-height: 1.4;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            background: white;
+            height: 60px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 20px;
+            z-index: 100;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ff4500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .profile-icon:hover {
+            background: #e73c00;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #ccc;
+            z-index: 101;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff4500;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px 20px;
+            color: #878a8c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #f6f7f8;
+            color: #ff4500;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            margin-top: 60px;
+            padding: 20px;
+            min-height: calc(100vh - 60px);
+            max-width: 740px;
+        }
+
+        .create-post-container {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .post-header {
+            padding: 16px;
+            border-bottom: 1px solid #edeff1;
+            background: #f8f9fa;
+        }
+
+        .page-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a1a1b;
+        }
+
+        .post-form {
+            padding: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1a1a1b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .community-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            background: white;
+            color: #1a1a1b;
+            transition: border-color 0.2s ease;
+        }
+
+        .community-select:focus {
+            outline: none;
+            border-color: #0079d3;
+            box-shadow: 0 0 0 2px rgba(0, 121, 211, 0.1);
+        }
+
+        .title-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 400;
+            background: white;
+            color: #1a1a1b;
+            transition: border-color 0.2s ease;
+        }
+
+        .title-input:focus {
+            outline: none;
+            border-color: #0079d3;
+            box-shadow: 0 0 0 2px rgba(0, 121, 211, 0.1);
+        }
+
+        .title-input::placeholder {
+            color: #878a8c;
+        }
+
+        .content-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            line-height: 1.5;
+            background: white;
+            color: #1a1a1b;
+            resize: vertical;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        .content-textarea:focus {
+            outline: none;
+            border-color: #0079d3;
+            box-shadow: 0 0 0 2px rgba(0, 121, 211, 0.1);
+        }
+
+        .content-textarea::placeholder {
+            color: #878a8c;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding-top: 16px;
+            border-top: 1px solid #edeff1;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: 1px solid;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn {
+            background: #0079d3;
+            border-color: #0079d3;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #005ba3;
+            border-color: #005ba3;
+        }
+
+        .submit-btn:disabled {
+            background: #c3c3c3;
+            border-color: #c3c3c3;
+            cursor: not-allowed;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            border-color: #0079d3;
+            color: #0079d3;
+        }
+
+        .cancel-btn:hover {
+            background: #f6f7f8;
+        }
+
+        .character-count {
+            font-size: 0.8rem;
+            color: #878a8c;
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .error-message {
+            background: #ffe6e6;
+            color: #d93025;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            border: 1px solid #ffcccc;
+        }
+
+        /* Reddit-style tips */
+        .posting-tips {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .tips-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1a1b;
+            margin-bottom: 12px;
+        }
+
+        .tips-list {
+            list-style: none;
+            color: #878a8c;
+            font-size: 0.9rem;
+        }
+
+        .tips-list li {
+            margin-bottom: 8px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .tips-list li::before {
+            content: "•";
+            color: #ff4500;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .navbar {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 16px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">KnowledgeHub</div>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/home" class="nav-item">Home</a>
+        <a href="/explore" class="nav-item">Explore</a>
+        <a href="/popular" class="nav-item">Popular</a>
+        <a href="/about" class="nav-item">About</a>
+    </nav>
+</div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <a href="/profile" class="profile-icon">
+        U
+    </a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="create-post-container">
+        <div class="post-header">
+            <h1 class="page-title">Create a post</h1>
+        </div>
+
+        <form class="post-form" th:action="@{/posts/create}" th:object = "${PostRequest}" method="post">
+            <div class="form-group">
+                <label for="community" class="form-label">Choose a community</label>
+                <select th:field="*{community_id}" class="community-select" required>
+                    <option value="">Select a community</option>
+                    <option th:each="community : ${communities}"
+                            th:value="${community.id}"
+                            th:text="${community.name}">Technology Enthusiasts</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title" class="form-label">Title</label>
+                <input type="text"
+                       th:field="*{title}"
+                       class="title-input"
+                       placeholder="An interesting title"
+                       maxlength="300"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="content" class="form-label">Text (optional)</label>
+                <textarea th:field="*{content}"
+                          class="content-textarea"
+                          placeholder="What are your thoughts?"></textarea>
+                <div class="character-count">
+                    <span id="char-count">0</span>/40,000 characters
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="/home" class="action-btn cancel-btn">Cancel</a>
+                <button type="submit" class="action-btn submit-btn" id="submit-btn">Post</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="posting-tips">
+        <h3 class="tips-title">Posting to KnowledgeHub</h3>
+        <ul class="tips-list">
+            <li>Remember the human</li>
+            <li>Behave like you would in real life</li>
+            <li>Look for the original source of content</li>
+            <li>Search for duplicates before posting</li>
+            <li>Read the community's rules</li>
+        </ul>
+    </div>
+</div>
+
+<!--<script>-->
+<!--    // Character counter-->
+<!--    const textarea = document.getElementById('content');-->
+<!--    const charCount = document.getElementById('char-count');-->
+<!--    const submitBtn = document.getElementById('submit-btn');-->
+<!--    const maxLength = 40000;-->
+
+<!--    textarea.addEventListener('input', function() {-->
+<!--        const length = this.value.length;-->
+<!--        charCount.textContent = length;-->
+
+<!--        if (length > maxLength) {-->
+<!--            charCount.style.color = '#d93025';-->
+<!--            submitBtn.disabled = true;-->
+<!--        } else {-->
+<!--            charCount.style.color = '#878a8c';-->
+<!--            submitBtn.disabled = false;-->
+<!--        }-->
+<!--    });-->
+
+<!--    // Form validation-->
+<!--    const form = document.querySelector('.post-form');-->
+<!--    const titleInput = document.getElementById('title');-->
+<!--    const communitySelect = document.getElementById('community');-->
+
+<!--    form.addEventListener('submit', function(e) {-->
+<!--        if (!titleInput.value.trim() || !communitySelect.value) {-->
+<!--            e.preventDefault();-->
+<!--            alert('Please fill in all required fields');-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${currentUser.username + ' - Profile'}">User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .profile-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .username {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .posts-section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .post {
+            background: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+
+        .post-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .post-content {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .post-meta {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .no-posts {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">KnowledgeHub</div>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/home" class="nav-item active">Home</a>
+        <a href="/explore" class="nav-item">Explore</a>
+        <a href="/popular" class="nav-item">Popular</a>
+        <a href="/about" class="nav-item">About</a>
+        <a href = "/community/create" class="nav-item">Create a New Community</a>
+        <a href = "/posts/create" class="nav-item">Create a New Post</a>
+    </nav>
+</div>
+
+<div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <h1 class="username" th:text="${currentUser.username}">Username</h1>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" th:text="${currentUser.num_followers}">0</div>
+                <div class="stat-label">Followers</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" th:text="${currentUser.num_following}">0</div>
+                <div class="stat-label">Following</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posts Section -->
+    <div class="posts-section">
+        <h2>Posts</h2>
+        <div th:if="${not #lists.isEmpty(userPosts)}">
+            <div class="post" th:each="post : ${userPosts}">
+                <div class="post-title" th:text="${post.title}">Post Title</div>
+                <div class="post-content" th:text="${post.content}">Post content goes here...</div>
+                <div class="post-meta">
+                    <span th:text="${#temporals.format(post.createdAt, 'MMM dd, yyyy')}">Jan 01, 2024</span>
+                    <span th:text="${post.num_likes + ' likes'}">0 likes</span>
+                    <span th:text="${post.num_dislikes + ' dislikes'}">0 dislikes</span>
+                </div>
+            </div>
+        </div>
+        <div class="no-posts" th:if="${#lists.isEmpty(userPosts)}">
+            No posts yet.
+        </div>
+    </div>
+</div>
+</body>
+</html>

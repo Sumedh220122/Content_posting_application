@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Users - KnowledgeHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            background: white;
+            height: 60px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-bar:focus {
+            border-color: #007bff;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .profile-icon:hover {
+            background: #0056b3;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            z-index: 101;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px 20px;
+            color: #6c757d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #f8f9fa;
+            color: #007bff;
+        }
+
+        .nav-item.active {
+            background: #e3f2fd;
+            color: #007bff;
+            border-right: 3px solid #007bff;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            margin-top: 60px;
+            padding: 20px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+        }
+
+        .content-header h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .content-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        .search-info {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .search-info span {
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        /* User Cards */
+        .users-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .user-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-right: 15px;
+        }
+
+        .user-details h3 {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 2px;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #6c757d;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-outline:hover {
+            background: #f8f9fa;
+            color: #495057;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .no-users {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .no-users h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .navbar {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .users-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">KnowledgeHub</div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/home" class="nav-item">Home</a>
+            <a href="/explore" class="nav-item">Explore</a>
+            <a href="/popular" class="nav-item">Popular</a>
+            <a href="/about" class="nav-item">About</a>
+            <a href="/community/create" class="nav-item">Create a New Community</a>
+            <a href="/posts/create" class="nav-item">Create a New Post</a>
+        </nav>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div></div>
+        <div class="search-container">
+            <form action="/users/search" method="get">
+                <input type="text" name="query" class="search-bar" placeholder="Search for users..." th:value="${searchQuery}">
+            </form>
+        </div>
+        <a th:href="@{/profile/{id}(id=${currentUser.id})}" class="profile-icon">
+            U
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Search Users</h1>
+            <p>Discover and connect with other members of the community.</p>
+        </div>
+
+        <div class="search-info" th:if="${searchQuery != null and !searchQuery.isEmpty()}">
+            Search results for: <span th:text="${searchQuery}"></span>
+        </div>
+
+        <div class="users-grid" th:if="${users != null and !users.isEmpty()}">
+            <div class="user-card" th:each="user : ${users}">
+                <div class="user-info">
+                    <div class="user-avatar" th:text="${#strings.substring(user.username, 0, 1).toUpperCase()}">U</div>
+                    <div class="user-details">
+                        <h3 th:text="${user.username}">Username</h3>
+                        <p th:text="${user.emailId}">user@example.com</p>
+                    </div>
+                </div>
+                
+                <div class="user-stats">
+                    <div class="stat">
+                        <div class="stat-number" th:text="${user.num_followers}">0</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" th:text="${user.num_following}">0</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                </div>
+
+                <div class="user-actions">
+                    <a th:href="@{/profile/{id}(id=${user.id})}" class="btn btn-outline">View Profile</a>
+                    <button class="btn btn-primary follow-btn" th:data-user-id="${currentUser.id}">Follow</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-users" th:if="${users == null or users.isEmpty()}">
+            <h3>No users found</h3>
+            <p th:if="${searchQuery != null and !searchQuery.isEmpty()}">
+                Try searching with different keywords or browse all users.
+            </p>
+            <p th:if="${searchQuery == null or searchQuery.isEmpty()}">
+                No users are currently available.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const followButtons = document.querySelectorAll('.follow-btn');
+            
+            followButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-user-id');
+                    const isFollowing = this.textContent.trim() === 'Unfollow';
+                    
+                    if (isFollowing) {
+                        unfollowUser(userId, this);
+                    } else {
+                        followUser(userId, this);
+                    }
+                });
+            });
+        });
+
+        function followUser(userId, button) {
+            // TODO: Implement follow functionality
+            fetch(`/api/users/${userId}/follow`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    button.textContent = 'Unfollow';
+                    button.classList.remove('btn-primary');
+                    button.classList.add('btn-success');
+                    updateFollowerCount(button, 1);
+                }
+            })
+            .catch(error => {
+                console.error('Error following user:', error);
+            });
+        }
+
+        function unfollowUser(userId, button) {
+            // TODO: Implement unfollow functionality
+            fetch(`/api/users/${userId}/unfollow`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    button.textContent = 'Follow';
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                    updateFollowerCount(button, -1);
+                }
+            })
+            .catch(error => {
+                console.error('Error unfollowing user:', error);
+            });
+        }
+
+        function updateFollowerCount(button, change) {
+            const userCard = button.closest('.user-card');
+            const followerCountElement = userCard.querySelector('.stat-number');
+            const currentCount = parseInt(followerCountElement.textContent);
+            followerCountElement.textContent = currentCount + change;
+        }
+    </script>
+</body>
+</html>
